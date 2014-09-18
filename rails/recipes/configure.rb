@@ -12,12 +12,7 @@ node[:deploy].each do |application, deploy|
   node.default[:deploy][application][:database][:adapter] = OpsWorks::RailsConfiguration.determine_database_adapter(application, node[:deploy][application], "#{node[:deploy][application][:deploy_to]}/current", :force => node[:force_database_adapter_detection])
   deploy = node[:deploy][application]
 
-  case node[:deploy][application][:database][:adapter]
-  when /mysql/
-    #include_recipe "mysql::client"
-  when "postgresql"
-    include_recipe "opsworks_postgresql::client_install"
-  end
+  include_recipe "opsworks_postgresql::client_install"
 
   template "#{deploy[:deploy_to]}/shared/config/database.yml" do
     source "database.yml.erb"
@@ -25,7 +20,7 @@ node[:deploy].each do |application, deploy|
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
-    variables(:database => deploy[:database], :environment => deploy[:rails_env])
+    variables(:database => 'postgresql', :environment => deploy[:rails_env])
 
     notifies :run, "execute[restart Rails app #{application}]"
 
