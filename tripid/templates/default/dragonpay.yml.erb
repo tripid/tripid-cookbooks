@@ -1,0 +1,8 @@
+staging:
+  merchant_id: <%= ENV["DRAGONPAY_MERCHANT_ID"] %>
+  secret_key: <%= ENV["DRAGONPAY_SECRET_KEY"] %>
+  test: true
+production:
+  merchant_id: <%= ENV["DRAGONPAY_MERCHANT_ID"] %>
+  secret_key: <%= ENV["DRAGONPAY_SECRET_KEY"] %>
+  test: false
