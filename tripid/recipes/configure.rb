@@ -1,5 +1,3 @@
-include_recipe "deploy"
-
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
@@ -9,7 +7,5 @@ node[:deploy].each do |application, deploy|
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
-
-    notifies :run, "execute[restart Rails app #{application}]"
   end
 end
